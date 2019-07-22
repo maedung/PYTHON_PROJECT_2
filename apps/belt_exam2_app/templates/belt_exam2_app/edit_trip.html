@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <style>
+        body{
+            width:970px;
+            padding: 20px;
+        }
+  
+        .header h3{
+            display:inline-block;
+            width: 600px;
+        }
+        .header .click{
+            display:inline-block;
+            width: 325px;
+            text-align:right;
+        }
+        li{
+            color:red;
+        }
+        .box{
+            width:400px;
+            padding: 20px;
+        }
+        .click{
+            text-align:right;
+            padding: 0px 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h3>Hello {{user.first_name}}! Let's edit your trip!</h3>
+        <div class="click">
+            <a href="/">Logout</a>
+        </div>
+    </div>
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    <div class="box">
+        <form action="/edit_process/{{trip.id}}" method="POST">
+            {% csrf_token %}
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label">Destination:</label>
+                <div class="col-sm-8">
+                    <input type="text" name="edit_dn" placeholder="{{trip.destination}}">
+                </div>
+
+                <label class="col-sm-4 col-form-label">Start Date:</label>
+                <div class="col-sm-8">
+                    <input type="text" onfocus="(this.type='date')" onblur="(this.type='text')" name="edit_sd" placeholder="{{trip.start_date}}" />
+                </div>
+
+                <label class="col-sm-4 col-form-label">End Date:</label>
+                <div class="col-sm-8">
+                    <input type="text" onfocus="(this.type='date')" onblur="(this.type='text')" name="edit_ed" placeholder="{{trip.end_date}}" />
+                </div>
+                
+                <label class="col-sm-4 col-form-label">Plan:</label>
+                <div class="col-sm-8">
+                    <textarea name="edit_plan"cols="22" rows="5" placeholder="{{trip.plan}}"></textarea>
+                </div>
+            </div>
+            <div class="click">
+                <a class="btn btn-primary" href="/dashboard">Cancel</a>
+                <input class="btn btn-primary" type="submit" name="edit" value="edit">
+            </div>
+        </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <style>
+        body{
+            width:970px;
+            padding: 20px;
+        }
+  
+        .header h3{
+            display:inline-block;
+            width: 600px;
+        }
+        .header .click{
+            display:inline-block;
+            width: 325px;
+            text-align:right;
+        }
+        .header a{
+            margin-right: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h3>Hello {{user.first_name}}!</h3>
+        <div class="click">
+            <a href="/">Logout</a>
+            <a class="btn btn-primary" href="/trips/new">Create a new trip</a>
+        </div>
+    </div>
+
+    <div class="box">
+        <h4>Your trips:</h4>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Destination</th>
+                    <th scope="col">Start Date</th>
+                    <th scope="col">End Date</th>
+                    <th scope="col">Plan</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            {% for trip in trips %}
+            <tbody>
+                {% if trip.posted_by.id == user.id or user in trip.joined_user.all %}
+                <td><a href="/trips/{{trip.id}}">{{trip.destination}}</a></td>
+                <td>{{trip.start_date}}</td>
+                <td>{{trip.end_date}}</td>
+                <td>{{trip.plan}}</td>
+                <td>
+                    {% if trip.posted_by.id == user.id %}
+                    <a href="/delete_trip/{{trip.id}}">Remove</a>
+                    <a href="/trips/edit/{{trip.id}}">Edit</a>
+                    {% endif %}
+                    {% if user in trip.joined_user.all %}
+                    <a href="/unjoin_trip/{{trip.id}}">Cancel</a>
+                    {% endif %}
+                </td>
+                {% endif %}
+            </tbody>
+            {% endfor %}
+            </table>
+    </div>
+
+    <div class="box">
+        <h4>Other people's trips</h4>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Destination</th>
+                    <th scope="col">Start Date</th>
+                    <th scope="col">End Date</th>
+                    <th scope="col">Plan</th>
+                    <th scope="col">Want to join?</th>
+                </tr>
+            </thead>
+            {% for trip in trips %}
+            <tbody>
+                {% if trip.posted_by.id != user.id %}
+                {% if user not in trip.joined_user.all %}
+                <td><a href="/trips/{{trip.id}}">{{trip.destination}}</a></td>
+                <td>{{trip.start_date}}</td>
+                <td>{{trip.end_date}}</td>
+                <td>{{trip.plan}}</td>
+                <td>
+                    <a href="/join_trip/{{trip.id}}">Join</a>
+                </td>
+                {% endif %}
+                {% endif %}
+            </tbody>
+            {% endfor %}
+        </table>
+    </div>
+</body>
+</html>

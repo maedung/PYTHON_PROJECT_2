@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <style>
+        body{
+            width:970px;
+        }
+        .box{
+            width:400px;
+            text-align: center;
+            padding: 20px;
+            border: 3px solid black;
+            display: inline-block;
+            vertical-align: top;
+            margin: 20px;
+        }
+        .click{
+            text-align:right;
+            padding: 0px 20px;
+        }
+        li{
+            color:red;
+        }
+
+    </style>
+
+</head>
+<body>
+    <h1 style="margin: 20px;">Welcome! Let's Travel!</h1>
+    <div class="box">
+        <form action="/register" method="POST">
+            {% csrf_token %}
+            <p>Register</p>
+            
+            <div class="form-group row">
+
+                <label class="col-sm-4 col-form-label">First name</label>
+                <div class="col-sm-8">
+                    <input type="text" name="fname">
+                </div>
+
+                <label class="col-sm-4 col-form-label">Last name</label>
+                <div class="col-sm-8">
+                    <input type="text" name="lname">
+                </div>
+
+                <label class="col-sm-4 col-form-label">Email</label>
+                <div class="col-sm-8">
+                    <input type="text" name="email">
+                </div>
+
+                <label class="col-sm-4 col-form-label">Password</label>
+                <div class="col-sm-8">
+                    <input type="password" name="pw">
+                </div>
+
+                <label class="col-sm-4 col-form-label">Confirm pw</label>
+                <div class="col-sm-8">
+                    <input type="password" name="pwc">
+                </div>
+
+            </div>
+            <div class="click">
+                <input class="btn btn-primary" type="submit" name="register" value="Register">
+            </div>
+        </form>
+    </div>
+
+    <div class="box">
+        <form action="/login" method="POST">
+            {% csrf_token %}
+            <p>Login</p>
+            <div class="form-group row">
+
+                <label class="col-sm-4 col-form-label">Email</label>
+                <div class="col-sm-8">
+                    <input type="text" name="login_email">
+                </div>
+
+                <label class="col-sm-4 col-form-label">Password</label>
+                <div class="col-sm-8">
+                    <input type="password" name="login_pw">
+                </div>
+
+            </div>
+            <div class="click">
+                <input class="btn btn-primary" type="submit" name="login" value="Login">
+            </div>
+        </form>
+    </div>
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+</body>
+</html>

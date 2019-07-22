@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <style>
+        body{
+            width: 970px;
+            padding: 20px;
+        }
+        .header h3{
+            display:inline-block;
+            width: 600px;
+        }
+        .header .click{
+            display:inline-block;
+            width: 325px;
+            text-align:right;
+        }
+        .trip_info{
+            padding: 10px;
+            border: 3px solid black;
+            width: 600px;
+        }
+        .trip_user{
+            padding: 10px;
+            border: 3px solid black;
+            margin-top: 20px;
+            width: 350px;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h3>Hello {{user.first_name}}! Read about this trip!</h3>
+        <div class="click">
+            <a style="margin-right: 20px;" href="/dashboard">Dashboard</a>
+            <a href="/">Logout</a>
+        </div>
+    </div>
+    <h4>{{trip.destination}}</h4>
+    <div class="trip_info">
+        <p>Start Date: {{trip.start_date}}</p>
+        <p>End Date: {{trip.end_date}}</p>
+        <p>Created On: {{trip.created_at}}</p>
+        <p>Last Updated: {{trip.updated_at}}</p>
+        <p>Plan: {{trip.plan}}</p>
+        <p>Created by: {{trip.posted_by.first_name}} {{trip.posted_by.last_name}}</p>
+    </div>
+
+    <div class="trip_user">
+        <h4>People who've joined the trip:</h4>
+        {% for i in trip.joined_user.all %}
+        <p>{{i.first_name}} {{i.last_name}}</p>
+        {% endfor %}
+    </div>
+</body>
+</html>
